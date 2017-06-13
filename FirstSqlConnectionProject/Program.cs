@@ -12,20 +12,20 @@ namespace FirstSqlConnectionProject {
         static void Main(string[] args) {
 
             // Select
-            string whereClause = "LastName = 'Doud'";
+            string whereClause = "LastName = 'Cobb'";
             string orderByClause = "UserName desc";
             UserCollection users = User.Select(whereClause, orderByClause);
             User user = users[0];
-            user.FirstName = "Greg";
+            user.FirstName = "Alex";
             bool success = User.Update(user);
             success = User.Delete(user);
             User user2Insert = new User {
-                UserName = "gpdoud",
+                UserName = "acobb",
                 Password = "password",
-                FirstName = "Nbr 23",
-                LastName = "Doud",
+                FirstName = "Nbr 88",
+                LastName = "Cobb",
                 Phone = "513-555-1212",
-                Email = "gdoud@maxtrain.com",
+                Email = "afcobb@gmail.com",
                 IsReviewer = false,
                 IsAdmin = false
             };
@@ -93,8 +93,8 @@ namespace FirstSqlConnectionProject {
             //rc = NewPurchaseRequest.AddLineItem(1, 10);
             //rc = NewPurchaseRequest.AddLineItem(2, 20);
             //rc = NewPurchaseRequest.AddLineItem(3, 30);
-            PurchaseRequest NewPurchaseRequest = PurchaseRequest.Select(14);
-            rc = NewPurchaseRequest.UpdateLineItem(5, 11);
+            PurchaseRequest NewPurchaseRequest = PurchaseRequest.Select(12);
+            //rc = NewPurchaseRequest.UpdateLineItem(5, 11);
 
 
             int i = 0;

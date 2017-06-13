@@ -21,6 +21,7 @@ namespace PrsLibrary {
         public string Status { get; set; }
         public decimal Total { get; private set; }
         public DateTime SubmittedDate { get; private set; }
+        public LineItemCollection LineItems { get; set; }
 
         private static void AddSqlInsertUpdateParameters(SqlCommand Cmd, PurchaseRequest purchaseRequest) {
             Cmd.Parameters.Add(new SqlParameter("@UserId", purchaseRequest.UserId));
@@ -93,7 +94,7 @@ namespace PrsLibrary {
             //    throw new ApplicationException("Result set has no rows!");
             //}
             PurchaseRequestCollection purchaseRequests = new PurchaseRequestCollection();
-            while (Reader.Read()) {
+            while (Reader.Read()) { //this while loop is where the data is pulled from the database and put in the purchase request class instance
                 int id = Reader.GetInt32(Reader.GetOrdinal("Id"));
                 int userId = Reader.GetInt32(Reader.GetOrdinal("UserId"));
                 string description = Reader.GetString(Reader.GetOrdinal("Description"));
@@ -120,12 +121,21 @@ namespace PrsLibrary {
                 // get the user
                 purchaseRequest.User = User.Select(purchaseRequest.UserId);
 
+                //get the line items
+                purchaseRequest.LineItems = GetLineItems(purchaseRequest.Id);
+
                 purchaseRequests.Add(purchaseRequest);
+                      
             }
 
             Cmd.Connection.Close();
             return purchaseRequests;
 
+        }
+        //this method will look for all items in the purchaserequestid 
+        private static LineItemCollection GetLineItems(int PurchaseRequestId) {
+            LineItemCollection lineItems = LineItem.Select($"PurchaseRequestId = {PurchaseRequestId}", "Id");
+            return lineItems;
         }
         public static PurchaseRequest Select(int Id) {
             PurchaseRequestCollection purchaseRequests = PurchaseRequest.Select($"Id = {Id}", "Id");
@@ -148,6 +158,9 @@ namespace PrsLibrary {
             this.Status = "New"; // a new request
             this.Total = 0.0M; // 
             this.SubmittedDate = DateTime.Now;
+            {
+            LineItems = new LineItemCollection();
+            }
         }
 
         public bool AddLineItem(int ProductId, int Quantity) {
@@ -204,5 +217,6 @@ namespace PrsLibrary {
             }
             return rc;
         }
+
     }
 }

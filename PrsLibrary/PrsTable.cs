@@ -9,7 +9,7 @@ using System.Data;
 namespace PrsLibrary {
 
     public class PrsTable {
-        protected static string ConnStr = @"Server=DSI-WORKSTATION\SQLEXPRESS;Database=prs;Trusted_Connection=True;";
+        protected static string ConnStr = @"Server=STUDENT05;Database=prs;Trusted_Connection=True;";
 
         protected static SqlCommand CreateConnection(string ConnStr, string Sql, string message) {
             SqlConnection Conn = new SqlConnection(ConnStr);

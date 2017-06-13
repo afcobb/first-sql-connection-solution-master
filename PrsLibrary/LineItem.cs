@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace PrsLibrary {
 
-    internal class LineItem : PrsTable {
+    public class LineItem : PrsTable {
 
         public int Id { get; set; }
         public int PurchaseRequestId { get; set; }
@@ -28,7 +28,7 @@ namespace PrsLibrary {
                 " (PurchaseRequestId, ProductId, Quantity) " +
                 " values " +
                 " (@PurchaseRequestId, @ProductId, @Quantity)");
-            //string ConnStr = @"Server=DSI-WORKSTATION\SQLEXPRESS;Database=prs;Trusted_Connection=True;";
+            //string ConnStr =@"Server=STUDENT05;Database=prs;Trusted_Connection=True;";
             SqlCommand Cmd = CreateConnection(ConnStr, Sql, "Connection didn't open");
 
             AddSqlInsertUpdateParameters(Cmd, lineItem);
@@ -49,7 +49,7 @@ namespace PrsLibrary {
                     " ProductId = @ProductId, " +
                     " Quantity = @Quantity " +
                     " WHERE ID = @Id; ");
-            //string ConnStr = @"Server=DSI-WORKSTATION\SQLEXPRESS;Database=prs;Trusted_Connection=True;";
+            //string ConnStr = @"Server=STUDENT05;Database=prs;Trusted_Connection=True;";
             SqlCommand Cmd = CreateConnection(ConnStr, Sql, "Connection didn't open");
             Cmd.Parameters.Add(new SqlParameter("@id", lineItem.Id));
             AddSqlInsertUpdateParameters(Cmd, lineItem);
@@ -61,7 +61,7 @@ namespace PrsLibrary {
         }
         public static bool Delete(LineItem lineItem) {
             string Sql = string.Format("DELETE from [lineItem] where ID = @id");
-            //string ConnStr = @"Server=DSI-WORKSTATION\SQLEXPRESS;Database=prs;Trusted_Connection=True;";
+            //string ConnStr = @"Server=STUDENT05;Database=prs;Trusted_Connection=True;";
             SqlCommand Cmd = CreateConnection(ConnStr, Sql, "Connection didn't open");
             Cmd.Parameters.Add(new SqlParameter("@id", lineItem.Id));
             int recsAffected = ExecuteSqlInsUpdDelCommand(Cmd, "Delete Failed!");
@@ -70,7 +70,7 @@ namespace PrsLibrary {
         }
         public static LineItemCollection Select(string WhereClause, string OrderByClause) {
             string Sql = string.Format("SELECT * from [lineItem] WHERE ({0}) ORDER BY {1}", WhereClause, OrderByClause);
-            //string ConnStr = @"Server=DSI-WORKSTATION\SQLEXPRESS;Database=prs;Trusted_Connection=True;";
+            //string ConnStr = @"Server=STUDENT05;Database=prs;Trusted_Connection=True;";
             SqlCommand Cmd = CreateConnection(ConnStr, Sql, "Connection didn't open");
             SqlDataReader Reader = Cmd.ExecuteReader();
             //if (!Reader.HasRows) {
